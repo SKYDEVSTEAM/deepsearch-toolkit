@@ -19,7 +19,7 @@
 - Uses frictionless flow by default; challenges via push/OOB OTP/PIN when risk is elevated.
 - Provides liability shift to issuer after successful auth; requires up-to-date contact channels.
 
-### EtherRAT – blockchain C2 consensus
+### EtherRAT – blockchain-based C2 with majority-vote validation
 - Queries nine public Ethereum RPC endpoints in parallel, reads an immutable smart contract, and **majority-votes** the returned C2 URL.
 - Purpose: prevent sinkholing/poisoning of a single RPC and resist takedown of static domains.
 - Detection idea: flag bursty eth_call traffic to multiple public RPCs followed by rapid polling of a resolved host with CDN-like paths.
