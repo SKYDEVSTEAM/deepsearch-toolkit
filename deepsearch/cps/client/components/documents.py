@@ -5,8 +5,26 @@ import json
 import urllib.parse
 from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
-from deepsearch.cps.apis import public as sw_client
-from deepsearch.cps.apis.public.models.task import Task
+from pydantic import BaseModel
+
+from deepsearch.cps.apis.public_v2 import SemanticApi
+from deepsearch.cps.apis.public_v2.models.cps_task import CpsTask
+from deepsearch.cps.apis.public_v2.models.semantic_ingest_req_params import (
+    SemanticIngestReqParams,
+)
+from deepsearch.cps.apis.public_v2.models.semantic_ingest_request import (
+    SemanticIngestRequest,
+)
+from deepsearch.cps.apis.public_v2.models.semantic_ingest_source_private_data_collection import (
+    SemanticIngestSourcePrivateDataCollection,
+)
+from deepsearch.cps.apis.public_v2.models.semantic_ingest_source_private_data_document import (
+    SemanticIngestSourcePrivateDataDocument,
+)
+from deepsearch.cps.apis.public_v2.models.semantic_ingest_source_public_data_document import (
+    SemanticIngestSourcePublicDataDocument,
+)
+from deepsearch.cps.apis.public_v2.models.source4 import Source4
 from deepsearch.cps.client.components.data_indices import (
     ElasticProjectDataCollectionSource,
 )
@@ -17,42 +35,119 @@ if TYPE_CHECKING:
     from deepsearch.cps.client import CpsApi
 
 
+class PublicDataDocumentSource(BaseModel):
+    source: ElasticDataCollectionSource
+    document_hash: str
+
+
+class PrivateDataDocumentSource(BaseModel):
+    source: ElasticProjectDataCollectionSource
+    document_hash: str
+
+
+class PrivateDataCollectionSource(BaseModel):
+    source: ElasticProjectDataCollectionSource
+
+
+PrivateDataSource = Union[
+    PrivateDataDocumentSource,
+    PrivateDataCollectionSource,
+]
+
+
+def create_private_data_source(
+    proj_key: str,
+    index_key: str,
+    document_hash: Optional[str] = None,
+) -> PrivateDataSource:
+    source = ElasticProjectDataCollectionSource(
+        proj_key=proj_key,
+        index_key=index_key,
+    )
+    return (
+        PrivateDataDocumentSource(
+            source=source,
+            document_hash=document_hash,
+        )
+        if document_hash is not None
+        else PrivateDataCollectionSource(
+            source=source,
+        )
+    )
+
+
+PublicDataSource = PublicDataDocumentSource
+
+
+def create_public_data_source(
+    elastic_id: str,
+    index_key: str,
+    document_hash: str,
+) -> PublicDataSource:
+    return PublicDataDocumentSource(
+        source=ElasticDataCollectionSource(
+            elastic_id=elastic_id,
+            index_key=index_key,
+        ),
+        document_hash=document_hash,
+    )
+
+
+DataSource = Union[
+    PrivateDataSource,
+    PublicDataSource,
+]
+
+
 class DSApiDocuments:
     def __init__(self, api: CpsApi) -> None:
         self.api = api
-        self.ingest_api = sw_client.DocumentInspectionApi(
-            self.api.client.swagger_client
-        )
+        self.semantic_api = SemanticApi(self.api.client.swagger_client_v2)
 
-    def ingest_for_qa(
+    def semantic_ingest(
         self,
         project: Union[Project, str],
-        data_source: Union[
-            ElasticDataCollectionSource, ElasticProjectDataCollectionSource
-        ],
-        document_hash: str,
-    ) -> Task:
+        data_source: DataSource,
+        skip_ingested_docs: bool = True,
+    ) -> CpsTask:
 
         proj_key = project.key if isinstance(project, Project) else project
+        api_src_data: Any
+        if isinstance(data_source, PublicDataDocumentSource):
+            api_src_data = SemanticIngestSourcePublicDataDocument(
+                type="public_data_document",
+                elastic_id=data_source.source.elastic_id,
+                index_key=data_source.source.index_key,
+                document_hash=data_source.document_hash,
+            )
+        elif isinstance(data_source, PrivateDataDocumentSource):
+            api_src_data = SemanticIngestSourcePrivateDataDocument(
+                type="private_data_document",
+                proj_key=data_source.source.proj_key,
+                index_key=data_source.source.index_key,
+                document_hash=data_source.document_hash,
+            )
+        elif isinstance(data_source, PrivateDataCollectionSource):
+            api_src_data = SemanticIngestSourcePrivateDataCollection(
+                type="private_data_collection",
+                proj_key=data_source.source.proj_key,
+                index_key=data_source.source.index_key,
+            )
+        else:
+            raise RuntimeError("Unknown data source format for semantic_ingest")
 
-        payload: Dict[str, Any] = {"source": {}}
-        if isinstance(data_source, ElasticDataCollectionSource):
-            payload["source"] = {
-                "type": "public_data",
-                "index_key": data_source.index_key,
-                "document_hash": document_hash,
-                "elastic_id": data_source.elastic_id,
-            }
-        elif isinstance(data_source, ElasticProjectDataCollectionSource):
-            payload["source"] = {
-                "type": "private_data",
-                "index_key": data_source.index_key,
-                "proj_key": data_source.proj_key,
-                "document_hash": document_hash,
-            }
-
-        task: Task = self.ingest_api.ingest_documentqa(proj_key, payload)
-
+        semantic_ingest_request = SemanticIngestRequest(
+            source=Source4(
+                actual_instance=api_src_data,
+            ),
+            parameters=SemanticIngestReqParams(
+                skip_ingested_docs=skip_ingested_docs,
+            ),
+        )
+        task = self.semantic_api.ingest(
+            proj_key=proj_key,
+            semantic_ingest_request=semantic_ingest_request,
+        )
         return task
 
     def generate_url(

@@ -1,3 +1,183 @@
+## [v2.0.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v2.0.1) - 2025-01-24
+
+### Fix
+
+* Change urrlib3 dependency version ([#194](https://github.com/DS4SD/deepsearch-toolkit/issues/194)) ([`d542d6f`](https://github.com/DS4SD/deepsearch-toolkit/commit/d542d6f27247a00c53f0e869c2109db92b69923a))
+
+## [v2.0.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v2.0.0) - 2025-01-17
+
+### Feature
+
+* Chemistry Queries for PatCID2 ([#191](https://github.com/DS4SD/deepsearch-toolkit/issues/191)) ([`32bcf5c`](https://github.com/DS4SD/deepsearch-toolkit/commit/32bcf5c585c839a5e3591a679d10827e7e0a7d03))
+* Change conversion tasks to cps api ([#190](https://github.com/DS4SD/deepsearch-toolkit/issues/190)) ([`4150e78`](https://github.com/DS4SD/deepsearch-toolkit/commit/4150e785b85937321b57ebec7978f2b69e5a2b07))
+
+### Breaking
+
+* Chemistry Queries for PatCID2 ([#191](https://github.com/DS4SD/deepsearch-toolkit/issues/191)) ([`32bcf5c`](https://github.com/DS4SD/deepsearch-toolkit/commit/32bcf5c585c839a5e3591a679d10827e7e0a7d03))
+* change conversion tasks to cps api ([#190](https://github.com/DS4SD/deepsearch-toolkit/issues/190)) ([`4150e78`](https://github.com/DS4SD/deepsearch-toolkit/commit/4150e785b85937321b57ebec7978f2b69e5a2b07))
+
+## [v1.1.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v1.1.1) - 2024-10-17
+
+### Fix
+
+* Fix legacy doc ref ([#188](https://github.com/DS4SD/deepsearch-toolkit/issues/188)) ([`2b2544b`](https://github.com/DS4SD/deepsearch-toolkit/commit/2b2544bfc5c9940088c7d18eb1f0b57974c40d08))
+
+## [v1.1.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v1.1.0) - 2024-10-16
+
+### Feature
+
+* Upgrade to new docling-core ([#187](https://github.com/DS4SD/deepsearch-toolkit/issues/187)) ([`0ee10ce`](https://github.com/DS4SD/deepsearch-toolkit/commit/0ee10ce51edc0abca7321f66600546c94ce7f7be))
+
+## [v1.0.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v1.0.1) - 2024-09-09
+
+### Fix
+
+* Compatibility with platformdirs >= 4 ([#186](https://github.com/DS4SD/deepsearch-toolkit/issues/186)) ([`2dfbcd7`](https://github.com/DS4SD/deepsearch-toolkit/commit/2dfbcd7460b27221bc0a96ff8ee0e506a6c3e450))
+
+## [v1.0.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v1.0.0) - 2024-08-05
+
+### Feature
+
+* Release v1.0.0 with docling-core, python 3.8 removal ([#183](https://github.com/DS4SD/deepsearch-toolkit/issues/183)) ([`adf261d`](https://github.com/DS4SD/deepsearch-toolkit/commit/adf261d4a59a1b4190c52740f3f304bec683a259))
+
+### Breaking
+
+* Release v1.0.0 with docling-core, python 3.8 removal ([#183](https://github.com/DS4SD/deepsearch-toolkit/issues/183)) ([`adf261d`](https://github.com/DS4SD/deepsearch-toolkit/commit/adf261d4a59a1b4190c52740f3f304bec683a259))
+
+## [v0.48.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.48.0) - 2024-06-14
+
+### Feature
+
+* Add QA on given chunk refs ([#181](https://github.com/DS4SD/deepsearch-toolkit/issues/181)) ([`995dda0`](https://github.com/DS4SD/deepsearch-toolkit/commit/995dda00ddc874aa039367ae3fd5e51c02c05f5b))
+
+## [v0.47.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.47.0) - 2024-06-06
+
+### Feature
+
+* Export to html ([#178](https://github.com/DS4SD/deepsearch-toolkit/issues/178)) ([`00f75f8`](https://github.com/DS4SD/deepsearch-toolkit/commit/00f75f89d11998c1f5e6a9cf9711abf0c9271468))
+
+## [v0.46.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.46.0) - 2024-05-31
+
+### Feature
+
+* Add data source helpers ([#176](https://github.com/DS4SD/deepsearch-toolkit/issues/176)) ([`c5e7103`](https://github.com/DS4SD/deepsearch-toolkit/commit/c5e71036dd31957bd63b64456782cd69f17c6b5a))
+
+## [v0.45.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.45.0) - 2024-05-22
+
+### Feature
+
+* Add target settings ([#175](https://github.com/DS4SD/deepsearch-toolkit/issues/175)) ([`c4a7b92`](https://github.com/DS4SD/deepsearch-toolkit/commit/c4a7b92cfa3febba01e3076a19a77a832721e37a))
+
+## [v0.44.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.44.0) - 2024-05-07
+
+### Feature
+
+* Use new sem index, gen ctx extractors ([#174](https://github.com/DS4SD/deepsearch-toolkit/issues/174)) ([`cde4183`](https://github.com/DS4SD/deepsearch-toolkit/commit/cde41835a297dd2151d2793e51161cd54bedddf4))
+
+## [v0.43.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.43.0) - 2024-03-14
+
+### Feature
+
+* Generate sdk from new v2 api ([#173](https://github.com/DS4SD/deepsearch-toolkit/issues/173)) ([`0abbf7f`](https://github.com/DS4SD/deepsearch-toolkit/commit/0abbf7f18a86d576fba09ac7980978aae1aaf184))
+
+## [v0.42.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.42.0) - 2024-03-05
+
+### Feature
+
+* Add RAG exceptions ([#171](https://github.com/DS4SD/deepsearch-toolkit/issues/171)) ([`533e4c5`](https://github.com/DS4SD/deepsearch-toolkit/commit/533e4c5247e6073ed25ffee11a51a7d14b4b839f))
+
+## [v0.41.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.41.0) - 2024-03-04
+
+### Feature
+
+* Enable control over chunking of URL lists ([#170](https://github.com/DS4SD/deepsearch-toolkit/issues/170)) ([`536666e`](https://github.com/DS4SD/deepsearch-toolkit/commit/536666e3ad6cb871939fb05751cf596cff2cebd8))
+
+## [v0.40.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.40.0) - 2024-02-16
+
+### Feature
+
+* Expose gen AI params ([#165](https://github.com/DS4SD/deepsearch-toolkit/issues/165)) ([`dc3db56`](https://github.com/DS4SD/deepsearch-toolkit/commit/dc3db562ac566d8c0be0649a45aad481af80118d))
+
+## [v0.39.2](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.39.2) - 2024-02-09
+
+### Fix
+
+* Update dependencies ([#164](https://github.com/DS4SD/deepsearch-toolkit/issues/164)) ([`aaa9aff`](https://github.com/DS4SD/deepsearch-toolkit/commit/aaa9affa8a9d319d120ec54b981c82e44a871d95))
+
+## [v0.39.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.39.1) - 2024-02-07
+
+### Fix
+
+* Align records type with API validation ([#163](https://github.com/DS4SD/deepsearch-toolkit/issues/163)) ([`8d0f7be`](https://github.com/DS4SD/deepsearch-toolkit/commit/8d0f7bea7b2ace4d19afa1437002d77b6cc72a9b))
+
+## [v0.39.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.39.0) - 2024-01-31
+
+### Feature
+
+* Expose search results to RAG, update types ([#161](https://github.com/DS4SD/deepsearch-toolkit/issues/161)) ([`49ec255`](https://github.com/DS4SD/deepsearch-toolkit/commit/49ec255eae8c9f9f33468fdca8c5c24d67bce700))
+
+## [v0.38.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.38.1) - 2024-01-24
+
+### Fix
+
+* Py38 compatibility ([#160](https://github.com/DS4SD/deepsearch-toolkit/issues/160)) ([`af32e11`](https://github.com/DS4SD/deepsearch-toolkit/commit/af32e118bd6a549830bf6e87e5dea2322d1718a9))
+
+## [v0.38.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.38.0) - 2024-01-22
+
+### Feature
+
+* Expose sem. params, default to hybrid search ([#159](https://github.com/DS4SD/deepsearch-toolkit/issues/159)) ([`5fa0963`](https://github.com/DS4SD/deepsearch-toolkit/commit/5fa0963bc07956348a27df4a8b97b3118c357463))
+
+## [v0.37.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.37.1) - 2024-01-16
+
+### Fix
+
+* Disable number parsing in multi-type columns ([#157](https://github.com/DS4SD/deepsearch-toolkit/issues/157)) ([`667e7fc`](https://github.com/DS4SD/deepsearch-toolkit/commit/667e7fc84c675f2830d514be2968f50e1860b090))
+
+## [v0.37.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.37.0) - 2024-01-11
+
+### Feature
+
+* Upload html page urls ([#156](https://github.com/DS4SD/deepsearch-toolkit/issues/156)) ([`c62d4e2`](https://github.com/DS4SD/deepsearch-toolkit/commit/c62d4e268485f5a0618a71a35e3f93048fb73b5d))
+
+## [v0.36.1](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.36.1) - 2024-01-10
+
+### Fix
+
+* Add table data check to Markdown export ([#155](https://github.com/DS4SD/deepsearch-toolkit/issues/155)) ([`6f30987`](https://github.com/DS4SD/deepsearch-toolkit/commit/6f309871292fda75e49e983cd5730dcc931b5082))
+
+### Documentation
+
+* Refactor docs and README ([#153](https://github.com/DS4SD/deepsearch-toolkit/issues/153)) ([`0a7cb87`](https://github.com/DS4SD/deepsearch-toolkit/commit/0a7cb87937e20adf56bded8a4d29f04fff6c6bb8))
+
+## [v0.36.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.36.0) - 2024-01-04
+
+### Feature
+
+* Add semantic retrieval ([#151](https://github.com/DS4SD/deepsearch-toolkit/issues/151)) ([`ebbb396`](https://github.com/DS4SD/deepsearch-toolkit/commit/ebbb39620e3392bb6ee0ec03735f6dfe21e29d28))
+
+### Documentation
+
+* Update getting-started guide ([#149](https://github.com/DS4SD/deepsearch-toolkit/issues/149)) ([`277448a`](https://github.com/DS4SD/deepsearch-toolkit/commit/277448a7a03b62ed88bd558b4128ade22126fb5d))
+
+## [v0.35.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.35.0) - 2023-12-18
+
+### Feature
+
+* Expose new semantic backend, add corpus RAG ([#148](https://github.com/DS4SD/deepsearch-toolkit/issues/148)) ([`5a2bbd8`](https://github.com/DS4SD/deepsearch-toolkit/commit/5a2bbd89a9f4777d74bca32ff45eb0668ffe9433))
+
+## [v0.34.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.34.0) - 2023-12-11
+
+### Chore
+
+* Update pydantic dependency to v2 ([#146](https://github.com/DS4SD/deepsearch-toolkit/issues/146)) ([`db95852`](https://github.com/DS4SD/deepsearch-toolkit/commit/db95852a41df0f6d19d3c25e531c057e3d175cfe))
+
+## [v0.33.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.33.0) - 2023-11-24
+
+### Feature
+
+* Partial db lookup, document entities lookup and render ([#145](https://github.com/DS4SD/deepsearch-toolkit/issues/145)) ([`106de7c`](https://github.com/DS4SD/deepsearch-toolkit/commit/106de7cee44c982fc3217c3f1a8b1d1b20a42b1e))
+
 ## [v0.32.0](https://github.com/DS4SD/deepsearch-toolkit/releases/tag/v0.32.0) - 2023-10-30
 
 ### Feature

@@ -12,10 +12,10 @@ from tqdm import tqdm
 from deepsearch.cps.client.api import CpsApi
 from deepsearch.cps.client.components.data_indices import S3Coordinates
 from deepsearch.cps.client.components.elastic import ElasticProjectDataCollectionSource
-from deepsearch.documents.core import convert, input_process
+from deepsearch.documents.core import convert
 from deepsearch.documents.core.common_routines import progressbar
-from deepsearch.documents.core.models import ConversionSettings
-from deepsearch.documents.core.utils import cleanup, create_root_dir
+from deepsearch.documents.core.models import ConversionSettings, TargetSettings
+from deepsearch.documents.core.utils import batch_single_files, cleanup, create_root_dir
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,8 @@ def upload_files(
     local_file: Optional[Union[str, Path]] = None,
     s3_coordinates: Optional[S3Coordinates] = None,
     conv_settings: Optional[ConversionSettings] = None,
+    target_settings: Optional[TargetSettings] = None,
+    url_chunk_size: int = 1,
 ):
     """
     Orchestrate document conversion and upload to an index in a project
@@ -43,13 +45,16 @@ def upload_files(
         else:
             urls = url
 
-        return process_url_input(api=api, coords=coords, urls=urls)
+        return process_url_input(
+            api=api, coords=coords, urls=urls, url_chunk_size=url_chunk_size
+        )
     elif url is None and local_file is not None and s3_coordinates is None:
         return process_local_file(
             api=api,
             coords=coords,
             local_file=Path(local_file),
             conv_settings=conv_settings,
+            target_settings=target_settings,
         )
     elif url is None and local_file is None and s3_coordinates is not None:
         return process_external_cos(
@@ -64,18 +69,22 @@ def process_url_input(
     api: CpsApi,
     coords: ElasticProjectDataCollectionSource,
     urls: List[str],
+    url_chunk_size: int,
     progress_bar: bool = False,
 ):
     """
     Individual urls are uploaded for conversion and storage in data index.
     """
 
+    chunk_list = lambda lst, n: [lst[i : i + n] for i in range(0, len(lst), n)]
+
     root_dir = create_root_dir()
 
     # container list for task_ids
     task_ids = []
     # submit urls
-    count_urls = len(urls)
+    url_chunks = chunk_list(urls, url_chunk_size)
+    count_urls = len(url_chunks)
     with tqdm(
         total=count_urls,
         desc=f"{'Submitting input:': <{progressbar.padding}}",
@@ -83,8 +92,9 @@ def process_url_input(
         colour=progressbar.colour,
         bar_format=progressbar.bar_format,
     ) as progress:
-        for url in urls:
-            file_url_array = [url]
+
+        for url_chunk in url_chunks:
+            file_url_array = url_chunk
             payload = {"file_url": file_url_array}
             task_id = api.data_indices.upload_file(coords=coords, body=payload)
             task_ids.append(task_id)
@@ -96,7 +106,7 @@ def process_url_input(
         api=api, cps_proj_key=coords.proj_key, task_ids=task_ids
     )
 
-    return
+    return statuses
 
 
 def process_local_file(
@@ -105,6 +115,7 @@ def process_local_file(
     local_file: Path,
     progress_bar: bool = False,
     conv_settings: Optional[ConversionSettings] = None,
+    target_settings: Optional[TargetSettings] = None,
 ):
     """
     Individual files are uploaded for conversion and storage in data index.
@@ -113,9 +124,7 @@ def process_local_file(
     # process multiple files from local directory
     root_dir = create_root_dir()
     # batch individual pdfs into zips and add them to root_dir
-    batched_files = input_process.batch_single_files(
-        source_path=local_file, root_dir=root_dir
-    )
+    batched_files = batch_single_files(source_path=local_file, root_dir=root_dir)
 
     # collect'em all
     files_zip: List[Any] = []
@@ -155,7 +164,11 @@ def process_local_file(
                 "file_url": file_url_array,
             }
             if conv_settings is not None:
-                payload["conversion_settings"] = conv_settings.to_ccs_spec()
+                payload["conversion_settings"] = conv_settings.model_dump()
+            if target_settings is not None:
+                payload["target_settings"] = target_settings.model_dump(
+                    exclude_none=True
+                )
 
             task_id = api.data_indices.upload_file(coords=coords, body=payload)
             task_ids.append(task_id)
@@ -167,7 +180,8 @@ def process_local_file(
         api=api, cps_proj_key=coords.proj_key, task_ids=task_ids
     )
     cleanup(root_dir=root_dir)
-    return
+
+    return statuses
 
 
 def process_external_cos(
@@ -190,7 +204,7 @@ def process_external_cos(
         bar_format=progressbar.bar_format,
     ) as progress:
         # upload using coordinates
-        payload = {"s3_source": {"coordinates": s3_coordinates.dict()}}
+        payload = {"s3_source": {"coordinates": s3_coordinates.model_dump()}}
         task_id = api.data_indices.upload_file(
             coords=coords,
             body=payload,
@@ -203,4 +217,4 @@ def process_external_cos(
     statuses = convert.check_cps_status_running_tasks(
         api=api, cps_proj_key=coords.proj_key, task_ids=task_ids
     )
-    return
+    return statuses

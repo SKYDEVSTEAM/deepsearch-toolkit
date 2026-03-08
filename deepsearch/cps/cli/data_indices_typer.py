@@ -17,6 +17,7 @@ from deepsearch.cps.cli.cli_options import (
     INDEX_KEY,
     PROJ_KEY,
     SOURCE_PATH,
+    TARGET_SETTINGS,
     URL,
 )
 from deepsearch.cps.client.api import CpsApi
@@ -24,7 +25,7 @@ from deepsearch.cps.client.components.data_indices import S3Coordinates
 from deepsearch.cps.client.components.elastic import ElasticProjectDataCollectionSource
 from deepsearch.cps.data_indices import utils
 from deepsearch.documents.core.common_routines import ERROR_MSG
-from deepsearch.documents.core.models import ConversionSettings
+from deepsearch.documents.core.models import ConversionSettings, TargetSettings
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -138,6 +139,7 @@ def upload_files(
     index_key: str = INDEX_KEY,
     s3_coordinates: Path = COORDINATES_PATH,
     conv_settings: Optional[str] = CONV_SETTINGS,
+    target_settings: Optional[str] = TARGET_SETTINGS,
 ):
     """
     Upload pdfs, zips, or online documents to a data index in a project
@@ -163,7 +165,7 @@ def upload_files(
 
     if conv_settings is not None:
         try:
-            final_conv_settings = ConversionSettings.parse_obj(
+            final_conv_settings = ConversionSettings.model_validate(
                 json.loads(conv_settings)
             )
         except json.JSONDecodeError:
@@ -173,16 +175,25 @@ def upload_files(
     else:
         final_conv_settings = None
 
-    utils.upload_files(
+    if target_settings is not None:
+        try:
+            final_target_settings = TargetSettings.model_validate_json(target_settings)
+        except Exception as e:
+            raise e
+    else:
+        final_target_settings = None
+
+    task_status = utils.upload_files(
         api=api,
         coords=coords,
         url=urls,
         local_file=local_file,
         s3_coordinates=cos_coordinates,
         conv_settings=final_conv_settings,
+        target_settings=final_target_settings,
     )
 
-    typer.echo("Tasks have been queued successfully")
+    typer.echo(f"Tasks finished with status: {task_status}")
 
 
 @app.command(

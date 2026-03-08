@@ -110,6 +110,7 @@ from deepsearch.cps.apis.public.models.data_flow_template_list_item import DataF
 from deepsearch.cps.apis.public.models.data_flow_template_variable import DataFlowTemplateVariable
 from deepsearch.cps.apis.public.models.data_flow_topology_options import DataFlowTopologyOptions
 from deepsearch.cps.apis.public.models.data_index_upload_file_source import DataIndexUploadFileSource
+from deepsearch.cps.apis.public.models.data_index_upload_file_source1 import DataIndexUploadFileSource1
 from deepsearch.cps.apis.public.models.dictionary import Dictionary
 from deepsearch.cps.apis.public.models.dictionary_clone_result import DictionaryCloneResult
 from deepsearch.cps.apis.public.models.dictionary_collection import DictionaryCollection
@@ -236,6 +237,8 @@ from deepsearch.cps.apis.public.models.run_data_flow_template_options1 import Ru
 from deepsearch.cps.apis.public.models.s3_coordinates import S3Coordinates
 from deepsearch.cps.apis.public.models.s3_coordinates_with_backup_key import S3CoordinatesWithBackupKey
 from deepsearch.cps.apis.public.models.s3_coordinates_with_backup_key_presigned import S3CoordinatesWithBackupKeyPresigned
+from deepsearch.cps.apis.public.models.semantic_ingest_req_params import SemanticIngestReqParams
+from deepsearch.cps.apis.public.models.semantic_ingest_request import SemanticIngestRequest
 from deepsearch.cps.apis.public.models.storage_summary_dc import StorageSummaryDC
 from deepsearch.cps.apis.public.models.storage_summary_kg import StorageSummaryKG
 from deepsearch.cps.apis.public.models.storage_summary_kg_categories_fraction import StorageSummaryKGCategoriesFraction

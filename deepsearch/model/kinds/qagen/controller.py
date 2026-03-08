@@ -24,7 +24,7 @@ class QAGenController(BaseController):
         )
         definitions = QAGenInfoOutputDefinitions(
             apiVersion=super()._get_api_version(),
-            kind=self.get_kind(),
+            kind=self.get_kind(),  # type: ignore[arg-type]
             spec=spec,
         )
         return QAGenInfoOutput(definitions=definitions)
@@ -40,7 +40,7 @@ class QAGenController(BaseController):
             gen_answers = spec.generateAnswers
             answers = self._model.generate_answers(
                 texts=[
-                    ([ctx_entry.dict() for ctx_entry in ctx_list], q)
+                    ([ctx_entry.model_dump() for ctx_entry in ctx_list], q)
                     for ctx_list, q in zip(gen_answers.contexts, gen_answers.questions)
                 ],
                 extras=gen_answers.extras or {},

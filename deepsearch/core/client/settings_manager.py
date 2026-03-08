@@ -111,12 +111,12 @@ class SettingsManager:
         if self._main_settings.profile is None:
             legacy_cfg_path = self.config_root_path / LEGACY_CFG_FILENAME
             if legacy_cfg_path.exists():
-                legacy_cfg = DeepSearchConfig.parse_file(legacy_cfg_path)
+                legacy_cfg = DeepSearchConfig.model_validate(legacy_cfg_path)
                 if isinstance(legacy_cfg.auth, DeepSearchKeyAuth):
                     new_cfg = ProfileSettings(
                         host=legacy_cfg.host,
                         username=legacy_cfg.auth.username,
-                        api_key=legacy_cfg.auth.api_key,
+                        api_key=legacy_cfg.auth.api_key,  # type: ignore[arg-type]
                         verify_ssl=legacy_cfg.verify_ssl,
                     )
                     self.save_settings(
@@ -144,7 +144,7 @@ class SettingsManager:
         prfl_name = profile_name or self.get_active_profile()
         if prfl_name is None:
             try:  # try to instantiate from environment alone
-                return ProfileSettings()
+                return ProfileSettings()  # type: ignore[call-arg]
             except ValidationError:
                 if len(self._profile_cache) == 0:
                     raise RuntimeError(MSG_NO_PROFILES_DEFINED)

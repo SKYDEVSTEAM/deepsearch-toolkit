@@ -22,19 +22,25 @@ if TYPE_CHECKING:
     from deepsearch.cps.client import CpsApi
 
 
+class PageUrl(BaseModel):
+    url: str
+    filename: Optional[str] = None
+    meta: Dict[str, Any] = {}
+
+
 class CpsApiDataIndices:
     def __init__(self, api: CpsApi) -> None:
         self.api = api
         self.sw_api = sw_client.DataIndicesApi(self.api.client.swagger_client)
 
     def list(self, proj_key: str) -> List[DataIndex]:
-        response: list[
-            sw_client.ProjectDataIndexWithStatus
-        ] = self.sw_api.get_project_data_indices(proj_key=proj_key)
+        response: list[sw_client.ProjectDataIndexWithStatus] = (
+            self.sw_api.get_project_data_indices(proj_key=proj_key)
+        )
 
         # filter out saved searchs index
         return [
-            DataIndex.parse_obj(item.to_dict())
+            DataIndex.model_validate(item.to_dict())
             for item in response
             if item.to_dict()["type"] != "View"
         ]
@@ -60,7 +66,7 @@ class CpsApiDataIndices:
             description of data index
         type : string, OPTIONAL
             type of data index, default is "Document"
-            possible values: "Document", "DB Records", "Generic", "Experiment"
+            possible values: "Document", "DB Record", "Generic", "Experiment"
         schema_key : string, OPTIONAL
             schema of data index, default is "deepsearch_doc"
             possible values: "deepsearch-doc", "deepsearch-db", "generic"
@@ -71,7 +77,7 @@ class CpsApiDataIndices:
 
         if type == "Document":
             schema_key = "deepsearch-doc"
-        elif type == "DB Records":
+        elif type == "DB Record":
             schema_key = "deepsearch-db"
         elif type == "Generic":
             schema_key = "generic"
@@ -88,7 +94,7 @@ class CpsApiDataIndices:
             self.sw_api.create_project_data_index(proj_key=proj_key, data=data)
         )
 
-        return DataIndex.parse_obj(response.to_dict())
+        return DataIndex.model_validate(response.to_dict())
 
     def delete(
         self,
@@ -126,6 +132,21 @@ class CpsApiDataIndices:
         """
         task: Task = self.sw_api.ccs_convert_upload_file_project_data_index(
             proj_key=coords.proj_key, index_key=coords.index_key, body=body
+        )
+        return task
+
+    def convert_from_page_urls(
+        self,
+        coords: ElasticProjectDataCollectionSource,
+        urls: List[PageUrl],
+    ) -> Task:
+        """
+        Call api for printing HTML pages to PDF and converting them to a project's data index document.
+        """
+        task: Task = self.sw_api.html_print_convert_upload(
+            proj_key=coords.proj_key,
+            index_key=coords.index_key,
+            body={"urls": [item.model_dump() for item in urls]},
         )
         return task
 

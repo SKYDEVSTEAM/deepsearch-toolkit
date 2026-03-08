@@ -50,7 +50,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Getting started: getting_started/index.md
+  - Examples [↗]: "https://github.com/DS4SD/deepsearch-examples"
   - User guide:
       - "guide/index.md"
       - Configuration: guide/configuration.md
@@ -60,16 +60,15 @@ nav:
       - Knowledge graphs: guide/kgs.md
       - APIs: guide/apis.md
       - Plugin system: guide/cli_plugins.md
-  - Example gallery: gallery/index.md
   - API reference:
       - Toolkit reference: api-reference.md
       - OpenAPI:
-          - User API: apis/user/UserApi.md # TODO we should point to the main index of the generated docs, but this is currently missing
-          - Public API: apis/public/KnowledgeGraphsApi.md # TODO we should point to the main index of the generated docs, but this is currently missing
+          # - User API: apis/user/UserApi.md # TODO we should point to the main index of the generated docs, but this is currently missing
+          - Public API: apis/public_v2/ # TODO we should point to the main index of the generated docs, but this is currently missing
       - CLI reference: cli-reference.md
 
 # Copyright
-copyright: Copyright &copy; 2023 <strong>IBM</strong> Research Europe – Deep Search team
+copyright: Copyright &copy; 2024 <strong>IBM</strong> Research Europe – Deep Search team
 
 # Customization
 extra:
@@ -113,8 +112,8 @@ markdown_extensions:
   - pymdownx.critic
   - pymdownx.details
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.smartsymbols

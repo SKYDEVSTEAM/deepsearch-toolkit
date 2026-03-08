@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, List, Literal, Optional, Union
 
 from pydantic import BaseModel
 
@@ -88,13 +88,14 @@ class Project:
     name: str
 
 
-class QAGenAIResource(BaseModel):
+class SemanticBackendResource(BaseModel):
+    type: Literal["semantic_backend_genai_runner"] = "semantic_backend_genai_runner"
     proj_key: str
+    index_key: str
 
     def to_resource(self):
-        return {
-            "type": "qa_genai",
-            "proj_key": self.proj_key,
-            "integration_id": "genai",
-            "instance_id": "qa_api",
-        }
+        return self.dict()
+
+
+class SemanticBackendPublicResource(SemanticBackendResource):
+    elastic_id: str
